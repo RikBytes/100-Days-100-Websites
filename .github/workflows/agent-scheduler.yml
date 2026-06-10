@@ -1,0 +1,26 @@
+name: 100 Days Challenge Agent Scheduler
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *' # Runs automatically every midnight
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup SSH Agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.AGENT_SSH_PRIVATE_KEY }}
+
+      - name: Run Master Prompt Engine
+        run: |
+          echo "Agent securely authenticated via SSH key."
+          # This is where your AI agent engine will execute your master prompt
+          # to analyze the repo directories and rewrite the README files.
